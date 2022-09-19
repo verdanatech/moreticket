@@ -43,10 +43,10 @@ if (isset($_POST['action'])) {
          $config = new PluginMoreticketConfig();
 
          // Ticket is waiting
-         if ($config->useWaiting()) {
-            $waiting_ticket = new PluginMoreticketWaitingTicket();
-            $waiting_ticket->showForm($_POST['tickets_id']);
-         }
+//         if ($config->useWaiting()) {
+//            $waiting_ticket = new PluginMoreticketWaitingTicket();
+//            $waiting_ticket->showForm($_POST['tickets_id']);
+//         }
 
          // Ticket is closed
          if ($config->useSolution()) {
@@ -57,20 +57,16 @@ if (isset($_POST['action'])) {
          }
          break;
 
-      case 'showFormTicketTask':
-         $config = new PluginMoreticketConfig();
-
-         if($config->useQuestion()){
-            $waiting_ticket = new PluginMoreticketWaitingTicket();
-            $waiting_ticket->showQuestionSign($_POST['tickets_id']);
-         }
-         // Ticket is waiting
-         if ($config->useWaiting()) {
-            $waiting_ticket = new PluginMoreticketWaitingTicket();
-            $waiting_ticket->showFormTicketTask($_POST['tickets_id']);
-         }
-
-         break;
+//      case 'showFormTicketTask':
+//         $config = new PluginMoreticketConfig();
+//
+//         // Ticket is waiting
+//         if ($config->useWaiting()) {
+//            $waiting_ticket = new PluginMoreticketWaitingTicket();
+//            PluginMoreticketWaitingTicket::showFormTicketTask($_POST['tickets_id']);
+//         }
+//
+//         break;
       case 'showFormUrgency':
          $config = new PluginMoreticketConfig();
 
@@ -82,13 +78,13 @@ if (isset($_POST['action'])) {
          }
          break;
 
-      case 'showFormSolution':
-         $config = new PluginMoreticketConfig();
-
-         if ($config->useDurationSolution()) {
-            $solution = new PluginMoreticketSolution();
-            $solution->showFormSolution($_POST['tickets_id']);
-         }
-         break;
+      //      case 'showFormSolution':
+      //         $config = new PluginMoreticketConfig();
+      //
+      //         if ($config->useDurationSolution()) {
+      //            $solution = new PluginMoreticketSolution();
+      //            $solution->showFormSolution($_POST['tickets_id']);
+      //         }
+      //         break;
    }
 }

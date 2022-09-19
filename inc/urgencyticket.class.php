@@ -150,13 +150,26 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
       echo "<div class='spaced' id='moreticket_urgency_ticket'>";
       echo "</br>";
-      echo "<table align='left' class='moreticket_waiting_ticket' id='cl_menu'>";
+      $align = "center";
+      $plugin = new Plugin();
+      if ($plugin->isActivated('servicecatalog')) {
+         $config      = new PluginServicecatalogConfig();
+         $use_as_step = $config->getFormDisplayAsStep();
+         if ($use_as_step != 1) {
+            $align = "left";
+         }
+      }
+      echo "<table align='$align' id='cl_menu'>";
       echo "<tr><td>";
       echo __('Justification', 'moreticket');
-      echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;</br>";
+      echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;</br>";
       echo "</td></tr>";
       echo "<tr><td>";
-      echo "<textarea cols='30' rows='5' name='justification'>" . $this->fields['justification'] . "</textarea>";
+      Html::textarea(['name'            => 'justification',
+                      'value' => $this->fields['justification'],
+                      'cols'       => 30,
+                      'rows'       => 5,
+                      'enable_richtext' => false]);
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";
@@ -256,7 +269,8 @@ class PluginMoreticketUrgencyTicket extends CommonDBTM {
 
                $urgency_ids = $config->getUrgency_ids();
 
-               if (!in_array($item->input['urgency'], $urgency_ids)) {
+               if (isset($urgency_ticket_data['id'])
+                   && !in_array($item->input['urgency'], $urgency_ids)) {
                   $urgency_ticket->update(['id'            => $urgency_ticket_data['id'],
                                                 'justification' => ""]);
                }

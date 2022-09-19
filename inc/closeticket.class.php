@@ -122,6 +122,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
    }
 
    // Check the mandatory values of forms
+
    /**
     * @param $values
     *
@@ -184,7 +185,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo "</td>";
       echo "<td>";
       echo $dbu->getUserName(Session::getLoginUserID());
-      echo "<input name='requesters_id' type='hidden' value='" . Session::getLoginUserID() . "'>";
+      echo Html::hidden('requesters_id', ['value' => Session::getLoginUserID()]);
       echo "</td>";
       echo "</tr>";
 
@@ -203,7 +204,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo __('Comments');
       echo "</td>";
       echo "<td>";
-      echo "<textarea cols='80' rows='8' name='comment'></textarea>";
+      Html::textarea(['name'            => 'comment',
+                      'cols'            => 80,
+                      'rows'            => 8,
+                      'enable_richtext' => false]);
       echo "</td>";
       echo "</tr>";
 
@@ -218,10 +222,10 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       if ($canedit) {
          echo "<tr>";
          echo "<td class='tab_bg_2 center' colspan='6'>";
-         echo "<input type='submit' name='add' class='submit' value='" . _sx('button', 'Add') . "' >";
-         echo "<input type='hidden' name='tickets_id' class='submit' value='" . $item->fields['id'] . "' >";
-         echo "<input type='hidden' name='items_id' class='submit' value='" . $item->fields['id'] . "' >";
-         echo "<input type='hidden' name='itemtype' class='submit' value='Ticket' >";
+         echo Html::hidden('tickets_id', ['value' => $item->fields['id']]);
+         echo Html::hidden('items_id', ['value' => $item->fields['id']]);
+         echo Html::hidden('itemtype', ['value' => 'Ticket']);
+         echo Html::submit(_sx('button', 'Add'), ['name' => 'add', 'class' => 'btn btn-primary']);
          echo "</td>";
          echo "</tr>";
       }
@@ -234,13 +238,13 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
    /**
     * Provides search options configuration. Do not rely directly
-    * on this, @see CommonDBTM::searchOptions instead.
+    * on this, @return array a *not indexed* array of search options
     *
     * @since 9.3
     *
     * This should be overloaded in Class
     *
-    * @return array a *not indexed* array of search options
+    * @see CommonDBTM::searchOptions instead.
     *
     * @see https://glpi-developer-documentation.rtfd.io/en/master/devapi/search.html
     **/
@@ -249,31 +253,31 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $tab = parent::rawSearchOptions();
 
       $tab[] = [
-         'id'                 => '10',
-         'table'              => $this->getTable(),
-         'field'              => 'date',
-         'name'               => __('Date'),
-         'datatype'           => 'datetime',
-         'massiveaction'      => false
+         'id'            => '10',
+         'table'         => $this->getTable(),
+         'field'         => 'date',
+         'name'          => __('Date'),
+         'datatype'      => 'datetime',
+         'massiveaction' => false
       ];
 
       $tab[] = [
-         'id'                 => '11',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('Comments'),
-         'datatype'           => 'text',
-         'massiveaction'      => true
+         'id'            => '11',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('Comments'),
+         'datatype'      => 'text',
+         'massiveaction' => true
       ];
 
       $tab[] = [
-         'id'                 => '12',
-         'table'              => 'glpi_users',
-         'field'              => 'name',
-         'name'               => __('Writer'),
-         'datatype'           => 'dropdown',
-         'linkfield'          => 'requesters_id',
-         'massiveaction'      => false
+         'id'            => '12',
+         'table'         => 'glpi_users',
+         'field'         => 'name',
+         'name'          => __('Writer'),
+         'datatype'      => 'dropdown',
+         'linkfield'     => 'requesters_id',
+         'massiveaction' => false
       ];
 
       return $tab;
@@ -307,9 +311,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       $rand = mt_rand();
 
       // Get close informations
-      $data = self::getCloseTicketFromDB($item->getField('id'), ['start' => $start,
-                                                                 'limit' => $_SESSION['glpilist_limit']]);
-      $dbu  = new DbUtils();
+      $data   = self::getCloseTicketFromDB($item->getField('id'), ['start' => $start,
+                                                                   'limit' => $_SESSION['glpilist_limit']]);
+      $dbu    = new DbUtils();
       $number = $dbu->countElementsInTable("glpi_plugin_moreticket_closetickets",
                                            ['tickets_id' => $item->getField('id')]);
       if ($number == 0) {
@@ -321,7 +325,7 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       } else {
          $doc = new Document();
-         echo "<div class='center'>";
+         echo "<div class='left'>";
          // Display the pager
          Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, $number);
 
@@ -370,13 +374,13 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
             echo "</tr>";
          }
 
+         echo "</table>";
+         echo "</div>";
          if ($canedit) {
             $massiveactionparams['ontop'] = false;
             Html::showMassiveActions($massiveactionparams);
             Html::closeForm();
          }
-         echo "</table>";
-         echo "</div>";
          Html::printAjaxPager(__('Close ticket informations', 'moreticket'), $start, count($data));
       }
    }
@@ -392,9 +396,9 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
    static function getCloseTicketFromDB($tickets_id, $options = []) {
       $dbu  = new DbUtils();
       $data = $dbu->getAllDataFromTable("glpi_plugin_moreticket_closetickets",
-                                        ['tickets_id' => $tickets_id]+
-                                        ['ORDER' => 'date DESC']+
-                                        ['START' => (int)$options['start']]+
+                                        ['tickets_id' => $tickets_id] +
+                                        ['ORDER' => 'date DESC'] +
+                                        ['START' => (int)$options['start']] +
                                         ['LIMIT' => (int)$options['limit']],
                                         false);
 
@@ -441,26 +445,39 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
 
       echo "<div class='spaced' id='moreticket_close_ticket'>";
       echo "</br>";
-      echo "<table class='moreticket_close_ticket' id='cl_menu'>";
+      echo "<table>";
       echo "<tr><td>";
       echo _n('Solution template', 'Solution templates', 1) . "&nbsp;:&nbsp;&nbsp;";
-      $rand_template = mt_rand();
-      $rand_text     = mt_rand();
-      $rand_type     = mt_rand();
-      SolutionTemplate::dropdown(['value'  => 0,
-                                       'entity' => $ticket->getEntityID(),
-                                       'rand'   => $rand_template,
-                                       // Load type and solution from bookmark
-                                       'toupdate'
-                                                => ['value_fieldname'
-                                                                     => 'value',
-                                                         'to_update' => 'solution' . $rand_text,
-                                                         'url'       => $CFG_GLPI["root_doc"] .
-                                                                        "/ajax/solution.php",
-                                                         'moreparams'
-                                                                     => ['type_id'
-                                                                              => 'dropdown_solutiontypes_id' .
-                                                                                 $rand_type]]]);
+      $rand       = mt_rand();
+      $content_id = "solution$rand";
+
+      SolutionTemplate::dropdown([
+                                    'name'      => "solution_template",
+                                    'value'     => 0,
+                                    'rand'      => $rand,
+                                    'on_change' => "solutiontemplate_update{$rand}(this.value)"
+                                 ]);
+      echo Html::hidden("_render_twig", ['value' => true]);
+
+      $JS = <<<JAVASCRIPT
+               function solutiontemplate_update{$rand}(value) {
+                  $.ajax({
+                     url: '{$CFG_GLPI['root_doc']}/ajax/solution.php',
+                     type: 'POST',
+                     data: {
+                        solutiontemplates_id: value
+                     }
+                  }).done(function(data) {
+                     tinymce.get("{$content_id}").setContent(data.content);
+
+                     var solutiontypes_id = isNaN(parseInt(data.solutiontypes_id))
+                        ? 0
+                        : parseInt(data.solutiontypes_id);
+                     $("#dropdown_solutiontypes_id{$rand}").trigger("setValue", solutiontypes_id);
+                  });
+               }
+JAVASCRIPT;
+      echo Html::scriptBlock($JS);
 
       echo "</td></tr>";
 
@@ -468,28 +485,47 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       echo _n('Solution type', 'Solution types', 1);
       $config = new PluginMoreticketConfig();
       if ($config->mandatorySolutionType() == true) {
-         echo "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+         echo "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
       }
       Dropdown::show('SolutionType',
                      ['value'  => $ticket->getField('solutiontypes_id'),
-                           'rand'   => $rand_type,
-                           'entity' => $ticket->getEntityID()]);
+                      'rand'   => $rand,
+                      'entity' => $ticket->getEntityID()]);
       echo "</td></tr>";
       echo "<tr><td>";
-      echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span class='red'>*</span>&nbsp;";
+      echo __('Solution description', 'moreticket') . "&nbsp;:&nbsp;<span style='color:red'>*</span>&nbsp;";
       $rand = mt_rand();
       Html::initEditorSystem("solution" . $rand);
       if (!isset($ticket->fields['solution'])) {
          $ticket->fields['solution'] = '';
       }
-      echo "<div id='solution$rand_text'>";
-      echo "<textarea id='solution$rand' name='solution' rows='3'>" . stripslashes($ticket->fields['solution']) . "</textarea></div>";
+      Html::textarea(['name'              => 'solution',
+                      'value'             => stripslashes($ticket->fields['solution']),
+                      'rand'              => $rand,
+                      'editor_id'         => $content_id,
+                      'enable_fileupload' => false,
+                      'enable_richtext'   => true,
+                      // Uploaded images processing is not able to handle multiple use of same uploaded file, so until this is fixed,
+                      // it is preferable to disable image pasting in rich text inside massive actions.
+                      'enable_images'     => false,
+                      'cols'              => 12,
+                      'rows'              => 80
+                     ]);
+      //      echo "<div id='solution$rand'>";
+      //      Html::textarea(['name'            => 'solution',
+      //                      'value' => stripslashes($ticket->fields['solution']),
+      //                      'editor_id' => 'solution'.$rand,
+      //                      'cols'       => 80,
+      //                      'rows'       => 3,
+      //                      'enable_richtext' => false]);
+      //      echo "</div>";
       echo "</td></tr>";
       echo "</table>";
       echo "</div>";
    }
 
    // Hook done on before add ticket - checkMandatory
+
    /**
     * @param $item
     *
@@ -502,18 +538,21 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
       }
 
       $config = new PluginMoreticketConfig();
-      if (isset($config->fields['use_solution']) && $config->useSolution()) {
+      if (isset($config->fields['use_solution'])
+          && $config->useSolution()) {
          // Get allowed status
          $solution_status = array_keys(json_decode($config->solutionStatus(), true));
 
          // Then we add tickets informations
-         if (isset($item->input['id']) && isset($item->input['status']) && in_array($item->input['status'], $solution_status)) {
+         if (isset($item->input['id'])
+             && isset($item->input['status'])
+             && in_array($item->input['status'], $solution_status)) {
             if (self::checkMandatory($item->input)) {
                // Add followup on immediate ticket closing
                if ($config->closeFollowup()
                    && $item->input['id'] == 0) {
                   $item->input['statusold'] = $item->input['status'];
-                  $item->input['status'] = 0;
+                  $item->input['status']    = 0;
                }
 
                $item->input['solution'] = str_replace(['\r', '\n', '\r\n'], '', $item->input['solution']);
@@ -543,26 +582,27 @@ class PluginMoreticketCloseTicket extends CommonDBTM {
          // Then we add tickets informations
          if (isset($item->input['id'])
              && isset($item->input['status'])
-             && $item->input['status'] ==0) {
+             && $item->input['status'] == 0) {
 
-            $input = [];
-            $input['itemtype'] = 'Ticket';
-            $input['items_id'] = $item->getID();
-            $input['content'] = $item->input['solution'];
-            $input['date_creation'] = $item->input['date'];
+            $input                     = [];
+            $input['itemtype']         = 'Ticket';
+            $input['items_id']         = $item->getID();
+            $input['content']          = $item->input['solution'];
+            $input['date_creation']    = $item->input['date'];
             $input['solutiontypes_id'] = $item->input['solutiontypes_id'];
 
             $itilsolution = new ITILSolution();
-            $id = $itilsolution->add($input);
+            $id           = $itilsolution->add($input);
 
             //Validate solution if ticket closed
-            if(in_array($item->input['status'], $solution_status)){
+            if (in_array($item->input['status'], $solution_status)) {
                $inputUpd['status'] = 3;
-               $inputUpd['id'] = $id;
+               $inputUpd['id']     = $id;
                $itilsolution->update($inputUpd);
             }
 
-            $item->update(['id'=>$item->fields['id'],'status' => $item->input['statusold']]);
+            $item->update(['id' => $item->fields['id'],
+                           'status' => $item->input['statusold']]);
          }
       }
 
