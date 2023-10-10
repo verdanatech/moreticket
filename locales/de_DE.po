@@ -4,145 +4,141 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Xavier CAILLAUD <thetsmr@gmail.com>, 2022
-# FranciscoFJ <dev-ooo@satel-sa.com>, 2022
+# Michael Schieferer, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: GLPI - MoreTicket plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-02 06:39+0000\n"
+"POT-Creation-Date: 2022-08-04 06:32+0000\n"
 "PO-Revision-Date: 2020-11-02 16:11+0000\n"
-"Last-Translator: FranciscoFJ <dev-ooo@satel-sa.com>, 2022\n"
-"Language-Team: Spanish (Spain) (https://www.transifex.com/infotelGLPI/teams/50826/es_ES/)\n"
+"Last-Translator: Michael Schieferer, 2022\n"
+"Language-Team: German (Germany) (https://www.transifex.com/infotelGLPI/teams/50826/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_ES\n"
-"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:255 hook.php:262 hook.php:269 hook.php:276
+#: hook.php:253 hook.php:260 hook.php:267 hook.php:274
 #: inc/closeticket.class.php:75 inc/closeticket.class.php:79
 #: inc/closeticket.class.php:121 inc/closeticket.class.php:179
 #: inc/closeticket.class.php:330 inc/closeticket.class.php:384
 #: inc/config.class.php:174
 msgid "Close ticket informations"
-msgstr "Informaciones del cierre de la petición"
+msgstr "Ticket-Infos schließen"
 
-#: hook.php:290
+#: hook.php:288
 msgid "Updated by a user"
-msgstr "Actualizado por un usuario"
+msgstr "Von Anwender aktualisiert"
 
 #: setup.php:117 inc/profile.class.php:49 inc/profile.class.php:194
 msgid "More ticket"
-msgstr "Más peticiones"
+msgstr "More Ticket"
 
-#: front/config.form.php:66
+#: front/config.form.php:65
 msgid "Please activate the plugin"
-msgstr "Por favor active el complemento"
+msgstr "Bitte das Plugin aktivieren"
 
 #: inc/closeticket.class.php:136 inc/closeticket.class.php:496
 msgid "Solution description"
-msgstr "Descripción de la solución "
+msgstr "Beschreibung der Lösung"
 
 #: inc/closeticket.class.php:155
 msgid "Ticket cannot be closed"
-msgstr "La petición no puede ser cerrada"
+msgstr "Ticket kann nicht geschlossen werden"
 
 #: inc/closeticket.class.php:620
 #, php-format
 msgid "%1$s added closing informations"
-msgstr "%1$s informaciones del cierre de la petición"
+msgstr "%1$s ergänzte Infos zum Schließen"
 
 #: inc/closeticket.class.php:639
 #, php-format
 msgid "%1$s updated closing informations"
-msgstr "%1$sactualizaciones del cierre de la petición"
+msgstr "%1$s aktualisierte Infos zum Schließen"
 
 #: inc/closeticket.class.php:658
 #, php-format
 msgid "%1$s deleted closing informations"
-msgstr "%1$sinformaciones del cierre apagadas"
+msgstr "%1$s löschte Infos zum Schließen"
 
 #: inc/config.class.php:147
 msgid "Ticket resolution and close"
-msgstr "Resolución y cierre de la petición"
+msgstr "Ticketlösung und schließen"
 
 #: inc/config.class.php:149
 msgid "Use solution process"
-msgstr "Use la solución de la petición"
+msgstr "Verwende Lösungs-Prozess"
 
 #: inc/config.class.php:167
 msgid "Solution type is mandatory"
-msgstr "Tipo de solución es obligatorio"
+msgstr "Lösungstyp ist verpflichtend"
 
 #: inc/config.class.php:180
 msgid "Status used to display solution block"
-msgstr "Estado utilizado para mostrar el bloque de solución"
+msgstr "Verwendeter Status zur Anzeige im Lösungsblock"
 
 #: inc/config.class.php:193
 msgid "Add a followup on immediate ticket closing"
-msgstr "Añadir un seguimiento en el cierre inmediato de la petición"
+msgstr "Ein Followup erstellen bei unmittelbarem Ticketabschluss"
 
 #: inc/config.class.php:199
 msgid "Use the 'Duration' field in the add solution interface"
-msgstr "Utilice el campo 'Duración' en la interfaz de agregar solución"
+msgstr "Verwende das Feld 'Dauer' beim Eintragen einer Lösung"
 
 #: inc/config.class.php:213
 msgid "Mandatory 'Duration' field"
-msgstr "El campo 'Duración' es obligatorio"
+msgstr "Feld 'Dauer' als Pflichtfeld"
 
 #: inc/config.class.php:218
 msgid "Ticket urgency"
-msgstr "Urgencia de la petición"
+msgstr "Ticket-Dringlichkeit"
 
 #: inc/config.class.php:220
 msgid "Use a justification of the urgency field"
-msgstr "Utilizar una justificación del campo de urgencia."
+msgstr "Verwendete eine Erläuterung für die Dringlichkeit"
 
 #: inc/config.class.php:236
 msgid "Urgency impacted justification for the field"
-msgstr "Justificativa de la urgencia de impacto en un campo"
+msgstr "Dringlichkeit beeinflusst die Begründung für das Feld"
 
 #: inc/config.class.php:264
 msgid "Update ticket status"
-msgstr "Actualizar el estado de la petición"
+msgstr "Ticket-Status aktualisieren"
 
 #: inc/config.class.php:267
 msgid "Update ticket status to processing after add document"
 msgstr ""
-"Actualizar el estado de la petición para procesar después de agregar el "
-"documento"
+"Ticket-Status auf 'in Arbeit' setzen, wenn ein Dokument angehängt wurde"
 
 #: inc/config.class.php:273
 msgid "Update ticket status to processing after approval"
-msgstr ""
-"Actualizar el estado de la petición a procesar después de la aprobación"
+msgstr "Ticket-Status nach Freigabe auf 'in Arbeit' setzen"
 
 #: inc/profile.class.php:158
 msgid "Adding a justification of urgency"
-msgstr "Añadiendo una justificación de urgencia"
+msgstr "Begründung der Dringlichkeit hinzufügen"
 
 #: inc/profile.class.php:166
 msgid "Hide task duration in tickets"
-msgstr "Ocultar la duración de la tarea en las peticiones"
+msgstr "Aufgabendauer in Tickets nicht anzeigen"
 
 #: inc/urgencyticket.class.php:69 inc/urgencyticket.class.php:164
 msgid "Justification"
-msgstr "Justificación"
+msgstr "Begründung"
 
 #: inc/urgencyticket.class.php:92
 msgid "Urgency ticket cannot be saved"
-msgstr "Petición de urgencia no se puede guardar"
+msgstr "Dringliches Ticket kann nicht gespeichert werden"
 
 #: inc/urgencyticket.class.php:94
 msgid "Ticket cannot be saved"
-msgstr "La petición no se puede guardar"
+msgstr "Ticket kann nicht gespeichert werden"
 
 #: inc/waitingtype.class.php:48
 msgid "Waiting type"
 msgid_plural "Waiting types"
-msgstr[0] "Tipo de espera"
-msgstr[1] "Tipos de espera"
-msgstr[2] "Tipos de espera"
+msgstr[0] "Wartetyp"
+msgstr[1] "Wartetypen"
